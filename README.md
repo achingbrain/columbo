@@ -148,5 +148,5 @@ Etc, etc.
 
 ### Todo
 
- - [ ] Framework agnostic argument validation
- - [ ] OPTIONS is a little half baked
+ - Framework agnostic argument validation
+ - OPTIONS is a little half baked
