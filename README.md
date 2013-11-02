@@ -1,8 +1,8 @@
 # Columbo
 
-> RIMMER: You can scoff, Lister.  That's nothing new.  They laughed at Galileo.  They laughed at Edison.  They laughed at Columbo.
-> LISTER: Who's Columbo?
-> RIMMER: The man with the dirty mac who discovered America.
+> RIMMER: You can scoff, Lister.  That's nothing new.  They laughed at Galileo.  They laughed at Edison.  They laughed at Columbo.  
+> LISTER: Who's Columbo?  
+> RIMMER: The man with the dirty mac who discovered America.  
 
 Red Dwarf [Season 1, Episode 4](http://www.ladyofthecake.com/rdscripts/season1/Waitingf.txt)
 
