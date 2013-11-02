@@ -88,6 +88,15 @@ var columbo = new Columbo({
 	// that will return arguments in the format you desire.
 	idFormatter: function(id) {
 		return "{" + id + "}";
+	},
+
+	/**
+	 * Responder for OPTIONS requests - the first argument will be an array of
+	 * strings corresponding to HTTP verbs, subsequent arguments are supplied by
+	 * your web framework of choice.
+	 */
+	optionsSender: function(opts, request) {
+		request.reply(opts);
 	}
 });
 
@@ -139,5 +148,5 @@ Etc, etc.
 
 ### Todo
 
-- [ ] Framework agnostic argument validation
-- [ ] OPTIONS is a little half baked
+ - [ ] Framework agnostic argument validation
+ - [ ] OPTIONS is a little half baked
