@@ -72,7 +72,7 @@ LibraryBook.prototype.remove = function() {
 ```javascript
 var Columbo = require("columbo");
 
-// all options are optional
+// all options are, well, optional
 var columbo = new Columbo({
 	// The path to the resources directory
 	resourceDirectory: "./resources",
@@ -90,11 +90,9 @@ var columbo = new Columbo({
 		return "{" + id + "}";
 	},
 
-	/**
-	 * Responder for OPTIONS requests - the first argument will be an array of
-	 * strings corresponding to HTTP verbs, subsequent arguments are supplied by
-	 * your web framework of choice.
-	 */
+	// Responder for OPTIONS requests - the first argument will be an array of
+	// strings corresponding to HTTP verbs, subsequent arguments are supplied by
+	// your web framework of choice.
 	optionsSender: function(opts, request) {
 		request.reply(opts);
 	}

@@ -1,7 +1,7 @@
 {
 	"name": "columbo",
 	"version": "1.0.0",
-	"description": "Resource discoverer",
+	"description": "Framework agnostic, automagical RESTful resource discoverer",
 	"main": "index.js",
 	"scripts": {
 		"test": "istanbul cover nodeunit test"
