@@ -75,5 +75,18 @@ module.exports["Columbo"] = {
 		test.ok(findResource("/foos/{fooId}/bars/{barId}/bazs/{bazId}/quxs/{quxId}", METHODS.OPTIONS, resources));
 
 		test.done();
+	},
+
+	"Should allow compound nouns": function( test ) {
+		var columbo = new Columbo({
+			resourceDirectory: "./test/resources-compoundnouns"
+		});
+		var resources = columbo.discover();
+
+		test.ok(findResource("/foos/{fooId}", METHODS.GET, resources));
+		test.ok(findResource("/foos/{fooId}/barBazs/{barBazId}", METHODS.GET, resources));
+		test.ok(findResource("/foos/{fooId}/barBazs/{barBazId}/quxs/{quxId}", METHODS.GET, resources));
+
+		test.done();
 	}
 };
