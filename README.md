@@ -19,6 +19,13 @@ Library.js
 LibraryBook.js
 ```
 
+or
+
+```
+LibraryResource.js
+LibraryBookResource.js
+```
+
 This will generate resources for the following URLs:
 
 ```

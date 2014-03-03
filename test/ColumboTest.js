@@ -88,5 +88,20 @@ module.exports["Columbo"] = {
 		test.ok(findResource("/foos/{fooId}/barBazs/{barBazId}/quxs/{quxId}", METHODS.GET, resources));
 
 		test.done();
+	},
+
+	"Should remove 'Resource' from resource unless it's a ResourceResource": function( test ) {
+		var columbo = new Columbo({
+			resourceDirectory: "./test/resources-with-resource-in-name"
+		});
+		var resources = columbo.discover();
+
+		test.ok(findResource("/bazs/{bazId}", METHODS.GET, resources));
+		test.ok(findResource("/foos/{fooId}", METHODS.GET, resources));
+		test.ok(findResource("/foos/{fooId}/bars/{barId}", METHODS.GET, resources));
+		test.ok(findResource("/foos/{fooId}/bars/{barId}/bazs/{bazId}", METHODS.GET, resources));
+		test.ok(findResource("/resources/{resourceId}", METHODS.GET, resources));
+
+		test.done();
 	}
 };
