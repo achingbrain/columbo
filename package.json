@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "istanbul cover nodeunit test",
-    "coveralls": "istanbul cover nodeunit && cat ./coverage/lcov.info | coveralls"
+    "coveralls": "istanbul cover nodeunit test && cat ./coverage/lcov.info | coveralls"
   },
   "repository": {
     "type": "git",
