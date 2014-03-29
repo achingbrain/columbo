@@ -1,6 +1,6 @@
 # Columbo
 
-[![Dependency Status](https://david-dm.org/achingbrain/columbo.svg?theme=shields.io)](https://david-dm.org/achingbrain/columbo) [![devDependency Status](https://david-dm.org/achingbrain/columbo/dev-status.svg?theme=shields.io)](https://david-dm.org/achingbraincolumbo#info=devDependencies) [![Build Status](https://img.shields.io/travis/achingbrain/columbo/master.svg)](https://travis-ci.org/achingbrain/columbo) [![Coverage Status](http://img.shields.io/coveralls/achingbrain/columbo/master.svg)](https://coveralls.io/r/achingbrain/columbo)
+[![Dependency Status](https://david-dm.org/achingbrain/columbo.svg?theme=shields.io)](https://david-dm.org/achingbrain/columbo) [![devDependency Status](https://david-dm.org/achingbrain/columbo/dev-status.svg?theme=shields.io)](https://david-dm.org/achingbrain/columbo#info=devDependencies) [![Build Status](https://img.shields.io/travis/achingbrain/columbo/master.svg)](https://travis-ci.org/achingbrain/columbo) [![Coverage Status](http://img.shields.io/coveralls/achingbrain/columbo/master.svg)](https://coveralls.io/r/achingbrain/columbo)
 
 >> RIMMER: You can scoff, Lister.  That's nothing new.  They laughed at Galileo.  They laughed at Edison.  They laughed at Columbo.  
 >> LISTER: Who's Columbo?  
