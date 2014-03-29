@@ -1,6 +1,6 @@
 {
   "name": "columbo",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Framework agnostic, automagical RESTful resource discoverer",
   "main": "index.js",
   "scripts": {

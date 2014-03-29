@@ -102,7 +102,10 @@ var columbo = new Columbo({
 	// your web framework of choice.
 	optionsSender: function(opts, request) {
 		request.reply(opts);
-	}
+	},
+
+	// Optionally pass in a logger (e.g. Winston) - defaults to console.
+	logger: {}
 });
 
 // Discover resources
