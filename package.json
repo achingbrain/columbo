@@ -4,7 +4,8 @@
   "description": "Framework agnostic, automagical RESTful resource discoverer",
   "main": "index.js",
   "scripts": {
-    "test": "istanbul cover nodeunit test"
+    "test": "istanbul cover nodeunit test",
+    "coveralls": "istanbul cover nodeunit && cat ./coverage/lcov.info | coveralls"
   },
   "repository": {
     "type": "git",
