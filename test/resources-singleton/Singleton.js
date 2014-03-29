@@ -1,4 +1,3 @@
-var LOG = require("winston");
 
 Singleton = function() {
 
