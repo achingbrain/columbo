@@ -103,5 +103,19 @@ module.exports["Columbo"] = {
 		test.ok(findResource("/resources/{resourceId}", METHODS.GET, resources));
 
 		test.done();
-	}
+	},
+
+	"Should discover capitals": function( test ) {
+		var columbo = new Columbo({
+			resourceDirectory: "./test/resources-capitals"
+		});
+		var resources = columbo.discover();
+
+		test.equal(4, resources.length);
+
+		test.ok(findResource("/foo", METHODS.GET, resources));
+		test.ok(findResource("/foo/bar", METHODS.GET, resources));
+
+		test.done();
+	},
 };
