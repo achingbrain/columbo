@@ -2,7 +2,6 @@
   "name": "columbo",
   "version": "1.2.1",
   "description": "Framework agnostic, automagical RESTful resource discoverer",
-  "main": "index.js",
   "scripts": {
     "test": "istanbul cover nodeunit test",
     "coveralls": "istanbul cover nodeunit test && cat ./coverage/lcov.info | coveralls"
@@ -12,14 +11,15 @@
     "url": "git://github.com/achingbrain/node-columbo.git"
   },
   "dependencies": {
-    "underscore.string": "~2.3",
-    "defaults": "~1.0"
+    "defaults": "^1.0",
+    "underscore.string": "^2.4"
   },
   "devDependencies": {
-    "nodeunit": "~0.8",
-    "jsmockito": "~1.0",
-    "jshamcrest": "~0.7",
-    "istanbul": "~0.1",
-    "coveralls": "^2.8"
+    "coveralls": "^2.8",
+    "istanbul": "^0.3",
+    "jshamcrest": "^0.7",
+    "jsmockito": "^1.0",
+    "nodeunit": "^0.9",
+    "pre-commit": "^0.0"
   }
 }
