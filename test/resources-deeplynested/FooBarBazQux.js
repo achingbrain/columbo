@@ -1,9 +1,9 @@
 FooBarBazQux = function() {
 
-};
+}
 
 FooBarBazQux.prototype.retrieve = function() {
 
-};
+}
 
-module.exports = FooBarBazQux;
+module.exports = FooBarBazQux

@@ -1,10 +1,10 @@
 
 SingletonSub = function() {
 
-};
+}
 
 SingletonSub.prototype.retrieve = function(request) {
-	request.reply([]);
-};
+  request.reply([])
+}
 
-module.exports = SingletonSub;
+module.exports = SingletonSub

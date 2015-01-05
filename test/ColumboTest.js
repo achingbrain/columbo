@@ -1,121 +1,107 @@
-var Columbo = require("../lib/Columbo"),
-	METHODS = require("../lib/METHODS");
+var Columbo = require('../lib/Columbo'),
+  METHODS = require('../lib/METHODS'),
+  expect = require('chai').expect
 
 var findResource = function(path, method, resources) {
-	var output = null;
+  var output = null
 
-	resources.forEach(function(resource) {
-		if(resource.path == path && resource.method == method) {
-			output = resource;
-		}
-	});
+  resources.forEach(function(resource) {
+    if(resource.path == path && resource.method == method) {
+      output = resource
+    }
+  })
 
-	return output;
+  return output
 }
 
-module.exports["Columbo"] = {
-	"Should discover singleton": function( test ) {
-		var columbo = new Columbo({
-			resourceDirectory: "./test/resources-singleton"
-		});
-		var resources = columbo.discover();
+describe('Columbo', function() {
+  it('Should discover singleton', function() {
+    var columbo = new Columbo({
+      resourceDirectory: './test/resources-singleton'
+    })
+    var resources = columbo.discover()
 
-		test.equal(4, resources.length);
+    expect(resources.length).to.equal(4)
+    expect(findResource('/singleton', METHODS.GET, resources)).to.be.ok
+    expect(findResource('/singleton/subs/{subId}', METHODS.GET, resources)).to.be.ok
+  })
 
-		test.ok(findResource("/singleton", METHODS.GET, resources));
-		test.ok(findResource("/singleton/subs/{subId}", METHODS.GET, resources));
+  it('Should discover methods', function() {
+    var columbo = new Columbo({
+      resourceDirectory: './test/resources-methods'
+    })
+    var resources = columbo.discover()
 
-		test.done();
-	},
+    expect(resources.length).to.equal(8)
 
-	"Should discover methods": function( test ) {
-		var columbo = new Columbo({
-			resourceDirectory: "./test/resources-methods"
-		});
-		var resources = columbo.discover();
+    expect(findResource('/foos', METHODS.OPTIONS, resources)).to.be.ok
+    expect(findResource('/foos', METHODS.GET, resources)).to.be.ok
+    expect(findResource('/foos', METHODS.POST, resources)).to.be.ok
+    expect(findResource('/foos/{fooId}', METHODS.OPTIONS, resources)).to.be.ok
+    expect(findResource('/foos/{fooId}', METHODS.GET, resources)).to.be.ok
+    expect(findResource('/foos/{fooId}', METHODS.PUT, resources)).to.be.ok
+    expect(findResource('/foos/{fooId}', METHODS.PATCH, resources)).to.be.ok
+    expect(findResource('/foos/{fooId}', METHODS.DELETE, resources)).to.be.ok
+  })
 
-		test.equal(8, resources.length);
+  it('should override id generation', function() {
+    var columbo = new Columbo({
+      resourceDirectory: './test/resources-methods',
+      idFormatter: function(id) {
+        return ':' + id
+      }
+    })
+    var resources = columbo.discover()
 
-		test.ok(findResource("/foos", METHODS.OPTIONS, resources));
-		test.ok(findResource("/foos", METHODS.GET, resources));
-		test.ok(findResource("/foos", METHODS.POST, resources));
-		test.ok(findResource("/foos/{fooId}", METHODS.OPTIONS, resources));
-		test.ok(findResource("/foos/{fooId}", METHODS.GET, resources));
-		test.ok(findResource("/foos/{fooId}", METHODS.PUT, resources));
-		test.ok(findResource("/foos/{fooId}", METHODS.PATCH, resources));
-		test.ok(findResource("/foos/{fooId}", METHODS.DELETE, resources));
+    expect(findResource('/foos/:fooId', METHODS.GET, resources)).to.be.ok
+  })
 
-		test.done();
-	},
+  it('should support deep nesting', function() {
+    var columbo = new Columbo({
+      resourceDirectory: './test/resources-deeplynested'
+    })
+    var resources = columbo.discover()
 
-	"Should override id generation": function( test ) {
-		var columbo = new Columbo({
-			resourceDirectory: "./test/resources-methods",
-			idFormatter: function(id) {
-				return ":" + id;
-			}
-		});
-		var resources = columbo.discover();
+    expect(findResource('/foos/{fooId}', METHODS.GET, resources)).to.be.ok
+    expect(findResource('/foos/{fooId}/bars/{barId}', METHODS.GET, resources)).to.be.ok
+    expect(findResource('/foos/{fooId}/bars/{barId}/bazs/{bazId}', METHODS.GET, resources)).to.be.ok
+    expect(findResource('/foos/{fooId}/bars/{barId}/bazs/{bazId}/quxs/{quxId}', METHODS.GET, resources)).to.be.ok
+    expect(findResource('/foos/{fooId}/bars/{barId}/bazs/{bazId}/quxs/{quxId}', METHODS.OPTIONS, resources)).to.be.ok
+  })
 
-		test.ok(findResource("/foos/:fooId", METHODS.GET, resources));
+  it('should allow compound nouns', function() {
+    var columbo = new Columbo({
+      resourceDirectory: './test/resources-compoundnouns'
+    })
+    var resources = columbo.discover()
 
-		test.done();
-	},
+    expect(findResource('/foos/{fooId}', METHODS.GET, resources)).to.be.ok
+    expect(findResource('/foos/{fooId}/barBazs/{barBazId}', METHODS.GET, resources)).to.be.ok
+    expect(findResource('/foos/{fooId}/barBazs/{barBazId}/quxs/{quxId}', METHODS.GET, resources)).to.be.ok
+  })
 
-	"Should support deep nesting": function( test ) {
-		var columbo = new Columbo({
-			resourceDirectory: "./test/resources-deeplynested"
-		});
-		var resources = columbo.discover();
+  it('should remove \'Resource\' from resource unless it\'s a ResourceResource', function() {
+    var columbo = new Columbo({
+      resourceDirectory: './test/resources-with-resource-in-name'
+    })
+    var resources = columbo.discover()
 
-		test.ok(findResource("/foos/{fooId}", METHODS.GET, resources));
-		test.ok(findResource("/foos/{fooId}/bars/{barId}", METHODS.GET, resources));
-		test.ok(findResource("/foos/{fooId}/bars/{barId}/bazs/{bazId}", METHODS.GET, resources));
-		test.ok(findResource("/foos/{fooId}/bars/{barId}/bazs/{bazId}/quxs/{quxId}", METHODS.GET, resources));
-		test.ok(findResource("/foos/{fooId}/bars/{barId}/bazs/{bazId}/quxs/{quxId}", METHODS.OPTIONS, resources));
+    expect(findResource('/bazs/{bazId}', METHODS.GET, resources)).to.be.ok
+    expect(findResource('/foos/{fooId}', METHODS.GET, resources)).to.be.ok
+    expect(findResource('/foos/{fooId}/bars/{barId}', METHODS.GET, resources)).to.be.ok
+    expect(findResource('/foos/{fooId}/bars/{barId}/bazs/{bazId}', METHODS.GET, resources)).to.be.ok
+    expect(findResource('/resources/{resourceId}', METHODS.GET, resources)).to.be.ok
+  })
 
-		test.done();
-	},
+  it('should discover capitals', function() {
+    var columbo = new Columbo({
+      resourceDirectory: './test/resources-capitals'
+    })
+    var resources = columbo.discover()
 
-	"Should allow compound nouns": function( test ) {
-		var columbo = new Columbo({
-			resourceDirectory: "./test/resources-compoundnouns"
-		});
-		var resources = columbo.discover();
+    expect(resources.length).to.equal(4)
+    expect(findResource('/foo', METHODS.GET, resources)).to.be.ok
+    expect(findResource('/foo/bar', METHODS.GET, resources)).to.be.ok
+  })
+})
 
-		test.ok(findResource("/foos/{fooId}", METHODS.GET, resources));
-		test.ok(findResource("/foos/{fooId}/barBazs/{barBazId}", METHODS.GET, resources));
-		test.ok(findResource("/foos/{fooId}/barBazs/{barBazId}/quxs/{quxId}", METHODS.GET, resources));
-
-		test.done();
-	},
-
-	"Should remove 'Resource' from resource unless it's a ResourceResource": function( test ) {
-		var columbo = new Columbo({
-			resourceDirectory: "./test/resources-with-resource-in-name"
-		});
-		var resources = columbo.discover();
-
-		test.ok(findResource("/bazs/{bazId}", METHODS.GET, resources));
-		test.ok(findResource("/foos/{fooId}", METHODS.GET, resources));
-		test.ok(findResource("/foos/{fooId}/bars/{barId}", METHODS.GET, resources));
-		test.ok(findResource("/foos/{fooId}/bars/{barId}/bazs/{bazId}", METHODS.GET, resources));
-		test.ok(findResource("/resources/{resourceId}", METHODS.GET, resources));
-
-		test.done();
-	},
-
-	"Should discover capitals": function( test ) {
-		var columbo = new Columbo({
-			resourceDirectory: "./test/resources-capitals"
-		});
-		var resources = columbo.discover();
-
-		test.equal(4, resources.length);
-
-		test.ok(findResource("/foo", METHODS.GET, resources));
-		test.ok(findResource("/foo/bar", METHODS.GET, resources));
-
-		test.done();
-	},
-};

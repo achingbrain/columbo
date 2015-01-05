@@ -1,25 +1,21 @@
-var StringUtils = require("../lib/StringUtils");
+var StringUtils = require('../lib/StringUtils'),
+  expect = require('chai').expect
 
-module.exports["StringUtils"] = {
-	"Should split by capitals": function( test ) {
-		test.deepEqual(StringUtils.splitByCapitals("OneTwoThree"), ["One", "Two", "Three"]);
+describe('StringUtils', function() {
 
-		test.done();
-	},
+  it('should split by capitals', function() {
+    expect(StringUtils.splitByCapitals('OneTwoThree')).to.deep.equal(['One', 'Two', 'Three'])
+  })
 
-	"Should singularise": function( test ) {
-		test.equal(StringUtils.singularise("foos"), "foo");
-		test.equal(StringUtils.singularise("libraries"), "library");
-		test.equal(StringUtils.singularise("glasses"), "glass");
+  it('should singularise', function() {
+    expect(StringUtils.singularise('foos')).to.equal('foo')
+    expect(StringUtils.singularise('libraries')).to.equal('library')
+    expect(StringUtils.singularise('glasses')).to.equal('glass')
+  })
 
-		test.done();
-	},
-
-	"Should pluralise": function( test ) {
-		test.equal(StringUtils.pluralise("library"), "libraries");
-		test.equal(StringUtils.pluralise("foo"), "foos");
-		test.equal(StringUtils.pluralise("glass"), "glasses");
-
-		test.done();
-	}
-};
+  it('should pluralise', function() {
+    expect(StringUtils.pluralise('library')).to.equal('libraries')
+    expect(StringUtils.pluralise('foo')).to.equal('foos')
+    expect(StringUtils.pluralise('glass')).to.equal('glasses')
+  })
+})

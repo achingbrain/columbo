@@ -1,10 +1,10 @@
 
 Singleton = function() {
 
-};
+}
 
 Singleton.prototype.retrieveOne = function(request) {
-	request.reply([]);
-};
+  request.reply([])
+}
 
-module.exports = Singleton;
+module.exports = Singleton

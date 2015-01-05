@@ -1,20 +1,20 @@
-var ResourceDiscoverer = require("../lib/ResourceDiscoverer");
+var ResourceDiscoverer = require('../lib/ResourceDiscoverer'),
+  expect = require('chai').expect
 
-module.exports["ResourceDiscoverer"] = {
-	"Should discover resources": function( test ) {
-		var resourceDiscoverer = new ResourceDiscoverer({
-			resourceDirectory: "./test/resources-discover"
-		});
-		var resources = resourceDiscoverer.discover();
+describe('ResourceDiscoverer', function() {
+  it('should discover resources', function() {
+    var resourceDiscoverer = new ResourceDiscoverer({
+      resourceDirectory: './test/resources-discover'
+    })
+    var resources = resourceDiscoverer.discover()
 
-		// should have two resources - /foo and /bar
-		test.equal(2, resources.length);
+    // should have two resources - /foo and /bar
+    expect(resources.length).to.equal(2)
 
-		test.ok(resources[0].name, "Bar");
-		test.ok(resources[1].name, "Foo");
-		test.ok(resources[1].subResources[0].name, "Baz");
-		test.ok(resources[1].subResources[0].fullName, "FooBaz");
+    expect(resources[0].name).to.equal('Bar')
+    expect(resources[1].name).to.equal('Foo')
 
-		test.done();
-	}
-};
+    expect(resources[1].subResources[0].name).to.equal('Baz')
+    expect(resources[1].subResources[0].fullName).to.equal('FooBaz')
+  })
+})

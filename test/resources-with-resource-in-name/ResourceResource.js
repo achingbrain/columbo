@@ -1,9 +1,9 @@
 Foo = function() {
 
-};
+}
 
 Foo.prototype.retrieve = function() {
 
-};
+}
 
-module.exports = Foo;
+module.exports = Foo
