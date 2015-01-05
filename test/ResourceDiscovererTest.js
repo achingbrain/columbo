@@ -17,4 +17,26 @@ describe('ResourceDiscoverer', function() {
     expect(resources[1].subResources[0].name).to.equal('Baz')
     expect(resources[1].subResources[0].fullName).to.equal('FooBaz')
   })
+
+  it('should emit error when creating resource fails', function(done) {
+    var resourceDiscoverer = new ResourceDiscoverer({
+      resourceDirectory: './test/resources-discover',
+      resourceCreator: function(resource, name, callback) {
+        setImmediate(callback.bind(null, new Error('Urk!')))
+      }
+    })
+    resourceDiscoverer.discover()
+
+    var firstCall = true
+
+    resourceDiscoverer.on('error', function(error) {
+      expect(error).to.be.ok
+      expect(error.message).to.contain('Urk!')
+
+      if(firstCall) {
+        done()
+        firstCall = false
+      }
+    })
+  })
 })
