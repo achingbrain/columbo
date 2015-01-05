@@ -1,6 +1,6 @@
 {
   "name": "columbo",
-  "version": "1.3.0",
+  "version": "2.0.0",
   "description": "Framework agnostic, automagical RESTful resource discoverer",
   "scripts": {
     "test": "istanbul cover _mocha test",
