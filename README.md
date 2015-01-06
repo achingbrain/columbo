@@ -48,31 +48,31 @@ LibraryBook = function() {
 };
 
 LibraryBook.prototype.retrieve = function() {
-	// generates GET with a URL parameter named 'id'
+  // generates GET with a URL parameter named 'id'
 };
 
 LibraryBook.prototype.retrieveAll = function() {
-	// generates GET with no URL parameter
+  // generates GET with no URL parameter
 };
 
 LibraryBook.prototype.retrieveOne = function() {
-	// generates GET with no URL parameter (intended for singletons, do no use with retrieve and retrieveAll)
+  // generates GET with no URL parameter (intended for singletons, do no use with retrieve and retrieveAll)
 };
 
 LibraryBook.prototype.create = function() {
-	// generates POST
+  // generates POST
 };
 
 LibraryBook.prototype.update = function() {
-	// generates PUT
+  // generates PUT
 };
 
 LibraryBook.prototype.patch = function() {
-	// generates PATCH
+  // generates PATCH
 };
 
 LibraryBook.prototype.remove = function() {
-	// generates DELETE
+  // generates DELETE
 };
 ```
 
@@ -83,31 +83,37 @@ var Columbo = require("columbo");
 
 // all options are, well, optional
 var columbo = new Columbo({
-	// The path to the resources directory
-	resourceDirectory: "./resources",
+  // The path to the resources directory
+  resourceDirectory: "./resources",
 
-	// All files in `resourceDirectory` will be `require`d - pass a function here
-	// to override how the resources are created.  `resource` will be whatever is
-	// returned from `require` and `name` is the camelised name of the file
-	resourceCreator: function(resource, name) {
-		return new resource()
-	},
+  // All files in `resourceDirectory` will be `require`d - pass a function here
+  // to override how the resources are created.  `resource` will be whatever is
+  // returned from `require` and `name` is the camelised name of the file
+  resourceCreator: function(resource, name) {
+    return new resource()
+  },
 
-	// In order to support :id or {id} form url arguments, pass a function here
-	// that will return arguments in the format you desire.
-	idFormatter: function(id) {
-		return "{" + id + "}";
-	},
+  // This will be called for every resource found - if you need to edit the resource
+  // definition, do it here then pass it to the callback
+  preProcessor: function(resource, callback) {
+    callback(undefined, resource)
+  },
 
-	// Responder for OPTIONS requests - the first argument will be an array of
-	// strings corresponding to HTTP verbs, subsequent arguments are supplied by
-	// your web framework of choice.
-	optionsSender: function(opts, request) {
-		request.reply(opts);
-	},
+  // In order to support :id or {id} form url arguments, pass a function here
+  // that will return arguments in the format you desire.
+  idFormatter: function(id) {
+    return "{" + id + "}";
+  },
 
-	// Optionally pass in a logger (e.g. Winston) - defaults to console.
-	logger: {}
+  // Responder for OPTIONS requests - the first argument will be an array of
+  // strings corresponding to HTTP verbs, subsequent arguments are supplied by
+  // your web framework of choice.
+  optionsSender: function(opts, request) {
+    request.reply(opts);
+  },
+
+  // Optionally pass in a logger (e.g. Winston) - defaults to console.
+  logger: {}
 });
 
 // Discover resources
@@ -118,11 +124,11 @@ Above `resources` will be an array:
 
 ```javascript
 [
-	{
-		method: String,		// e.g. GET
-		path: String,		// e.g. /foo
-		handler: Function	// a bound function - the method on the resource class
-	}, ...
+  {
+    method: String,		// e.g. GET
+    path: String,		// e.g. /foo
+    handler: Function	// a bound function - the method on the resource class
+  }, ...
 ]
 ```
 
@@ -131,27 +137,33 @@ You can then use it with [Hapi](http://spumko.github.io)
 ```javascript
 var columbo = new Columbo();
 
-var server = Hapi.createServer("0.0.0.0", 80);
-server.addRoutes(columbo.discover());
-server.start();
+var server = new Hapi.Server();
+server.addConnection({port: 3000});
+
+columbo.discover(function(error, routes) {
+  server.route(routes);
+  server.start();
+})
 ```
 
 Or with [Express](http://expressjs.com):
 
-```
+```javascript
 var app = express();
 ...
 var columbo = new Columbo({
-	idFormatter: function(id) {
-		return ":" + id;
-	},
-	optionsSender: function(options, request, response) {
-		response.json(options);
-	}
+  idFormatter: function(id) {
+    return ":" + id;
+  },
+  optionsSender: function(options, request, response) {
+    response.json(options);
+  }
 });
-columbo.discover().forEach(function(resource) {
-	app[resource.method.toLowerCase()](resource.path, resource.handler);
-});
+columbo.discover(function(error, routes) {
+  routes.forEach(function(resource) {
+    app[resource.method.toLowerCase()](resource.path, resource.handler);
+  });
+})
 ```
 
 Etc, etc.

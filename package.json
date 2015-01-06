@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "defaults": "^1.0",
-    "underscore.string": "^2.4"
+    "underscore.string": "^2.4",
+    "async": "^0.9"
   },
   "devDependencies": {
     "chai": "^1.0",
